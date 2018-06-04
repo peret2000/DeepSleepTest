@@ -175,6 +175,8 @@ void onHomieEvent(const HomieEvent& event) {
     case HomieEventType::OTA_STARTED:
       Serial << "OTA started" << endl;
       break;
+    case HomieEventType::OTA_PROGRESS:
+      break;
     case HomieEventType::OTA_FAILED:
       Serial << "OTA failed" << endl;
       break;
