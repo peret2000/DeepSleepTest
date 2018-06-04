@@ -338,6 +338,26 @@ void SetupDS18B20(){
 }
 
 
+//-----------------------------------------------------------------
+//      MQTT Subscribe
+
+void onMqttConnect(bool sessionPresent)
+{
+  AsyncMqttClient& mqttClient = Homie.getMqttClient();
+  uint16_t packetIdSub = mqttClient.subscribe("homie/terraza/temp/time", 2);
+  uint16_t packetIdSub2 = mqttClient.subscribe("homie/terraza/temp/degrees", 2);
+  Serial << "[MQTT onMqttConnect] Subscribed with packet ID: " << packetIdSub << endl;
+}
+
+void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total)
+{
+
+  Serial << "[MQTT onMqttMessage]: " << topic << ":" << ((String)payload).substring(0,len) << endl;
+  Serial << "[MQTT onMqttMessage] Free size: " << ESP.getFreeHeap() << endl;
+}
+
+//-----------------------------------------------------------------
+
 
 void setup() {
 
@@ -371,6 +391,12 @@ void setup() {
 
   //Setup DS18b20 temperature sensor
   SetupDS18B20();
+
+  // Set up mqtt client to subscribe to another device's messages
+  AsyncMqttClient& mqttClient = Homie.getMqttClient();
+  mqttClient.onConnect(onMqttConnect)
+
+  mqttClient.onMessage(onMqttMessage);
 
 }
 
