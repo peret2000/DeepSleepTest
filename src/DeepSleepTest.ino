@@ -12,8 +12,8 @@
 // NTP Client based on https://github.com/gmag11/NtpClient
 
 
-#define FW_NAME "HomieSensor_T_5_20180530"	//	Max length: 32. Be careful: if it is exceeded thare is a crash
-#define FW_VERSION "2.0.19_bfba03d"	//	Max Length: 16. Be careful: if it is exceeded thare is a crash
+#define FW_NAME "HomieSensor_T_6_20180604"	//	Max length: 32. Be careful: if it is exceeded thare is a crash
+#define FW_VERSION "2.0.19"	//	Max Length: 16. Be careful: if it is exceeded thare is a crash
 
 
 /* Magic sequence for Autodetectable Binary Upload */
@@ -362,7 +362,7 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
 void setup() {
 
 
-  Serial.begin(115200);
+  Serial.begin(9600);
   Serial << endl << endl;
 
   Serial << "Sketch size: " << ESP.getSketchSize() << endl;
@@ -394,7 +394,7 @@ void setup() {
 
   // Set up mqtt client to subscribe to another device's messages
   AsyncMqttClient& mqttClient = Homie.getMqttClient();
-  mqttClient.onConnect(onMqttConnect)
+  mqttClient.onConnect(onMqttConnect);
 
   mqttClient.onMessage(onMqttMessage);
 
